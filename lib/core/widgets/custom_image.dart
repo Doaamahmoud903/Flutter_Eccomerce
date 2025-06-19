@@ -1,3 +1,4 @@
+import 'package:eccomerce_app/core/theming/color_manager.dart';
 import 'package:flutter/material.dart';
 
 class CustomImage extends StatelessWidget {
@@ -8,6 +9,8 @@ class CustomImage extends StatelessWidget {
   final BoxFit? fit;
   @override
   Widget build(BuildContext context) {
-    return Image.asset(imagePath, width: w, height: h, fit: fit,);
+    return Container(
+      color: ColorManager.textColorInTextField,
+        child: Image.asset(imagePath, width: w, height: h, fit: fit,));
   }
 }

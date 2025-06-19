@@ -21,7 +21,7 @@ class _CartItemState extends State<CartItem> {
     return InkWell(
       onTap: () {
         //todo: navigate to product detail screen
-        Navigator.pushNamed(context, AppRoutes.productRoute);
+        Navigator.pushNamed(context, AppRoutes.productDetailsRoute);
       },
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),

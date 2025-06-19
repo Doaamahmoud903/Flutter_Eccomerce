@@ -27,7 +27,7 @@ class _FavoriteItemState extends State<FavoriteItem> {
       padding: EdgeInsets.only(top: 10.h),
       child: InkWell(
         onTap: () {
-          Navigator.pushNamed(context, AppRoutes.productRoute);
+          Navigator.pushNamed(context, AppRoutes.productDetailsRoute);
         },
         child: Container(
           height: 135.h,

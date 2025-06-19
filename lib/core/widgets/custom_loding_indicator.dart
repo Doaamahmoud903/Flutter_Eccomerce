@@ -9,8 +9,8 @@ class CustomLoadingIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SpinKitSpinningLines(
-      color: ColorManager.orangeColor,
+    return SpinKitWaveSpinner(
+      color: ColorManager.primaryColor,
       size: size ?? 80,
     );
   }

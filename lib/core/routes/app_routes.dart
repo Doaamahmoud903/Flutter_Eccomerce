@@ -5,8 +5,9 @@ class AppRoutes{
   static const String forgotPasswordRoute = "ForgotPasswordView";
   static const String loginRoute = "LoginView";
   static const String signupRoute = "SignupView";
-  static const String productRoute = "productDetails";
+  static const String productsRoute = "products";
   static const String cartRoute = "cart";
   static const String brandsRoute = "brands";
+  static const String productDetailsRoute = "productDetails";
 
 }

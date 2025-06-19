@@ -1,6 +1,8 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:eccomerce_app/features/brands/presentation/views/brands_view.dart';
 import 'package:eccomerce_app/features/cart/presentation/views/cart_view.dart';
+import 'package:eccomerce_app/features/product_details/presentation/views/product_details_view.dart';
+import 'package:eccomerce_app/features/products/presentation/views/products_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -64,6 +66,8 @@ Widget buildAppRoot(BuildContext context) {
                   AppRoutes.signupRoute: (context) => const SignupView(),
                   AppRoutes.cartRoute: (context) => const CartView(),
                   AppRoutes.brandsRoute:(context) => const BrandsView(),
+                  AppRoutes.productsRoute:(context)=> const ProductsView(),
+                  //AppRoutes.productDetailsRoute:(context)=> const ProductDetailsView(),
                 },
               );
             },

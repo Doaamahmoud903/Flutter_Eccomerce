@@ -1,3 +1,4 @@
+import 'package:eccomerce_app/core/routes/app_routes.dart';
 import 'package:eccomerce_app/features/categories/presentation/views/widgets/selected_Category_banner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,7 +40,8 @@ class _CategoryContentState extends State<CategoryContent> {
         final subCategories = categoriesViewModel.selectedCategorySubcategories;
         print(subCategories.length);
         final selectedCategory = categoriesViewModel.selectedCategory;
-        if (subCategories.isEmpty) {
+        final isFetchedAndEmpty = state is AllSubCategoriesSuccess && subCategories.isEmpty;
+        if (isFetchedAndEmpty) {
           return Column(
             children: [
               SelectedCategoryBanner(
@@ -61,8 +63,6 @@ class _CategoryContentState extends State<CategoryContent> {
         }
 
 
-
-
         return Column(
           children: [
             SelectedCategoryBanner(
@@ -74,45 +74,40 @@ class _CategoryContentState extends State<CategoryContent> {
               child: GridView.builder(
                 padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
+                  crossAxisCount: 2,
                   mainAxisSpacing: 8.h,
                   crossAxisSpacing: 8.w,
-                  childAspectRatio: 0.75,
+                  childAspectRatio: 0.9,
                 ),
                 itemCount: subCategories.length,
                 itemBuilder: (context, index) {
                   final subCategory = subCategories[index];
-                  return InkWell(
-                    onTap: (){
-
-                    },
-                    child: Card(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            width: double.infinity,
-                            height: 70.h,
-                            child: CustomCachedNetworkImage(
-                              url: subCategory.image ?? "",
-                              fit: BoxFit.cover,
-                            ),
+                  return Card(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(
+                          width: double.infinity,
+                          height: 70.h,
+                          child: CustomCachedNetworkImage(
+                            url: subCategory.image ?? "",
+                            fit: BoxFit.cover,
                           ),
-                          Padding(
-                            padding: EdgeInsets.all(4.0.w),
-                            child: Text(
-                              subCategory.name ?? "",
-                              style: TextStyle(
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(4.0.w),
+                          child: Text(
+                            subCategory.name ?? "",
+                            style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
                             ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   );
                 },

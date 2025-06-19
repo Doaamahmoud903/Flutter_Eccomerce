@@ -56,7 +56,7 @@ dependencies:
   colornames: ^0.2.0
   smooth_page_indicator: ^1.2.1
   flutter_image_slideshow: ^0.1.6
-  readmore: ^3.0.0
+  readmore: ^2.2.0
   flutter_staggered_grid_view: 0.7.0
 
 

@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 class AllProductsUseCase{
   final ProductsRepository productsRepository;
   AllProductsUseCase(this.productsRepository);
-  invoke(){
-    return productsRepository.getAllProducts();
+  invoke({int page = 1}){
+    return productsRepository.getAllProducts(page : page);
   }
 }

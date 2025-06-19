@@ -76,6 +76,12 @@ class CategoriesViewModel extends Cubit<CategoriesStates> {
             (e) => e.id == selectedCategoryId,
         orElse: () => Data(),
       );
+  bool isViewingProducts = false;
+
+  void showProducts() {
+    emit(CategoriesViewProducts(isViewingProducts: true));
+  }
+
 
 
 }

@@ -3,11 +3,16 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eccomerce_app/core/theming/styles_manager.dart';
 import 'package:eccomerce_app/core/utils/assets_manager.dart';
 import 'package:eccomerce_app/core/theming/color_manager.dart';
+import 'package:eccomerce_app/core/widgets/custom_loding_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../domain/entities/products_response_entity.dart';
+
 class ProductTabItem extends StatelessWidget {
-  const ProductTabItem({super.key});
+  final Product product;
+
+  const ProductTabItem({super.key, required this.product});
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +31,9 @@ class ProductTabItem extends StatelessWidget {
                   height: 120.h,
                   fit: BoxFit.cover,
                   imageUrl:
-                  "https://www.nike.sa/dw/image/v2/BDVB_PRD/on/demandware.static/-/Sites-akeneo-master-catalog/default/dw42ccc9ea/nk/a9b/7/6/4/b/1/a9b764b1_834c_413e_aec2_f460112b2de6.jpg?sw=2000&sh=2000&sm=fit",
+                 product.imageCover ?? "",
                   placeholder: (context, url) => const Center(
-                    child: CircularProgressIndicator(
-                      color: ColorManager.primaryDark,
+                    child: CustomLoadingIndicator(
                     ),
                   ),
                   errorWidget: (context, url, error) => const Icon(
@@ -67,7 +71,7 @@ class ProductTabItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 AutoSizeText(
-                  "Nike Air Jordan",
+                  product.title ?? "",
                   maxLines: 1,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     color: ColorManager.primaryColor,
@@ -79,7 +83,7 @@ class ProductTabItem extends StatelessWidget {
                   height: 2.h,
                 ),
                 AutoSizeText(
-                  "NIKE SHOES FLEXIBLE FOR MEN",
+                 product.description ?? "",
                   maxLines: 1,
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
                     color: ColorManager.primaryColor,
@@ -92,7 +96,7 @@ class ProductTabItem extends StatelessWidget {
                 ),
                 Row(children: [
                   AutoSizeText(
-                    "EGP 1500",
+                    product.price.toString() ?? "",
                     maxLines: 1,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
                       color: ColorManager.primaryColor,
@@ -116,13 +120,15 @@ class ProductTabItem extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    AutoSizeText(
-                      "Review (4.8)",
-                      maxLines: 1,
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: ColorManager.primaryColor,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 12.sp,
+                    Expanded(
+                      child: AutoSizeText(
+                        "Review ${product.ratingsAverage}",
+                        maxLines: 1,
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: ColorManager.primaryColor,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 12.sp,
+                        ),
                       ),
                     ),
                     Icon(
@@ -130,9 +136,7 @@ class ProductTabItem extends StatelessWidget {
                       color: ColorManager.yellowColor,
                       size: 25.sp,
                     ),
-                    const Spacer(
-                      flex: 1,
-                    ),
+
                     InkWell(
                       onTap: () {
                         //   todo add to cart

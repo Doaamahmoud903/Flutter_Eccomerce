@@ -70,6 +70,8 @@ import '../../features/products/domain/usecases/all_products_use_case.dart'
     as _i426;
 import '../../features/products/domain/usecases/specific_product_use_case.dart'
     as _i78;
+import '../../features/products/presentation/manager/products_view_model.dart'
+    as _i725;
 import '../api/api_services.dart' as _i124;
 import '../api/dio_factory.dart' as _i1008;
 
@@ -150,6 +152,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i526.LoginViewModel>(
       () => _i526.LoginViewModel(loginUsecase: gh<_i950.LoginUsecase>()),
+    );
+    gh.factory<_i725.ProductsViewModel>(
+      () => _i725.ProductsViewModel(
+        gh<_i426.AllProductsUseCase>(),
+        gh<_i78.SpecificProductUseCase>(),
+      ),
     );
     gh.factory<_i290.ForgotPasswordViewModel>(
       () => _i290.ForgotPasswordViewModel(

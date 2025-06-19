@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:eccomerce_app/core/widgets/custom_loding_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -56,8 +57,7 @@ class _ProductSliderState extends State<ProductSlider> {
                   fit: BoxFit.cover,
                   imageUrl: url,
                   placeholder: (context, url) => const Center(
-                    child: CircularProgressIndicator(
-                      color: ColorManager.yellowColor,
+                    child: CustomLoadingIndicator(
                     ),
                   ),
                   errorWidget: (context, url, error) => const Icon(

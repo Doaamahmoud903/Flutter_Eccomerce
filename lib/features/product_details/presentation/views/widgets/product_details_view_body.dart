@@ -1,18 +1,17 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider_plus/carousel_slider_plus.dart';
 import 'package:eccomerce_app/core/theming/styles_manager.dart';
-import 'package:eccomerce_app/core/utils/assets_manager.dart';
 import 'package:eccomerce_app/core/theming/color_manager.dart';
 import 'package:eccomerce_app/features/products/presentation/views/widgets/product_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_image_slideshow/flutter_image_slideshow.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:readmore/readmore.dart';
 
+import '../../../../products/domain/entities/products_response_entity.dart';
+
 
 class ProductDetailsViewBody extends StatefulWidget {
-  const ProductDetailsViewBody({super.key});
+  final Product product;
+  const ProductDetailsViewBody({super.key, required this.product});
 
   @override
   State<ProductDetailsViewBody> createState() => _ProductDetailsViewBodyState();
@@ -32,18 +31,13 @@ class _ProductDetailsViewBodyState extends State<ProductDetailsViewBody> {
     Colors.yellow,
   ];
 
-  List<String> productImages = [
-    "https://www.nike.sa/dw/image/v2/BDVB_PRD/on/demandware.static/-/Sites-akeneo-master-catalog/default/dw42ccc9ea/nk/a9b/7/6/4/b/1/a9b764b1_834c_413e_aec2_f460112b2de6.jpg?sw=2000&sh=2000&sm=fit",
-    "https://www.nike.sa/dw/image/v2/BDVB_PRD/on/demandware.static/-/Sites-akeneo-master-catalog/default/dw42ccc9ea/nk/a9b/7/6/4/b/1/a9b764b1_834c_413e_aec2_f460112b2de6.jpg?sw=2000&sh=2000&sm=fit",
-    "https://www.nike.sa/dw/image/v2/BDVB_PRD/on/demandware.static/-/Sites-akeneo-master-catalog/default/dw42ccc9ea/nk/a9b/7/6/4/b/1/a9b764b1_834c_413e_aec2_f460112b2de6.jpg?sw=2000&sh=2000&sm=fit",
-  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Nike Air Jordon",
+          widget.product.title ?? "",
           style: Styles.semi20Primary,
         ),
         centerTitle: true,
@@ -71,7 +65,7 @@ class _ProductDetailsViewBodyState extends State<ProductDetailsViewBody> {
             children: [
               ProductSlider(
                 initialIndex: 0,
-                items: productImages,
+                items: widget.product.images ?? [],
               ),
               SizedBox(
                 height: 16.h,
@@ -81,12 +75,12 @@ class _ProductDetailsViewBodyState extends State<ProductDetailsViewBody> {
                 children: [
                   Expanded(
                     child: Text(
-                      "Nike Air Jordon",
+                      widget.product.category?.name ?? "",
                       style: Styles.medium18Header,
                     ),
                   ),
                   Text(
-                    "EGP 500",
+                    "EGP ${widget.product.price.toString()}" ?? "",
                     style: Styles.medium18Header,
                   ),
                 ],
@@ -107,7 +101,7 @@ class _ProductDetailsViewBodyState extends State<ProductDetailsViewBody> {
                     padding:
                     EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                     child: Text(
-                      '3222 Sold',
+                      '${widget.product.sold} Sold',
                       overflow: TextOverflow.ellipsis,
                       style: Styles.medium14PrimaryDark,
                     ),
@@ -115,20 +109,23 @@ class _ProductDetailsViewBodyState extends State<ProductDetailsViewBody> {
                   SizedBox(
                     width: 16.w,
                   ),
-                  Image.asset(
-                    AssetManager.starIcon,
-                    width: 20.w,
+                  Icon(
+                    Icons.star,
+                    color: ColorManager.yellowColor,
+                    size: 25.sp,
                   ),
                   SizedBox(
                     width: 4.w,
                   ),
-                  Expanded(
-                    child: Text(
-                      "4.8 (7200)",
-                      overflow: TextOverflow.ellipsis,
-                      style: Styles.regular14Text,
+
+                    Expanded(
+                      child: Text(
+                        "${widget.product.ratingsAverage ?? ""} (${widget.product.quantity ?? ""})",
+                        overflow: TextOverflow.ellipsis,
+                        style: Styles.regular14Text,
+                      ),
                     ),
-                  ),
+
                   Container(
                     decoration: BoxDecoration(
                       color: ColorManager.primaryColor,
@@ -179,6 +176,7 @@ class _ProductDetailsViewBodyState extends State<ProductDetailsViewBody> {
                       ],
                     ),
                   )
+
                 ],
               ),
               SizedBox(
@@ -192,7 +190,7 @@ class _ProductDetailsViewBodyState extends State<ProductDetailsViewBody> {
                 height: 8.h,
               ),
               ReadMoreText(
-                "Nike is a multinational corporation that designs, develops, and sells athletic footwear ,apparel . Nike is a multinational corporation that designs, develops, and sells athletic footwear ,apparel",
+                widget.product.description ?? "",
                 style: Styles.medium14LightPrimary,
                 trimExpandedText: ' Read Less',
                 trimCollapsedText: ' Read More',
@@ -302,7 +300,7 @@ class _ProductDetailsViewBodyState extends State<ProductDetailsViewBody> {
               SizedBox(
                 height: 12.h,
               ),
-              Text("EGP $totalPrice", style: Styles.medium18Header)
+              Text("EGP ${widget.product.price}", style: Styles.medium18Header)
             ],
           ),
           SizedBox(

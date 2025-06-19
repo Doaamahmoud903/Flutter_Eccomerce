@@ -15,12 +15,15 @@ class ProductsRemoteDataSourceImpl extends ProductsRemoteDataSource{
   ProductsRemoteDataSourceImpl(this.apiService);
 
   @override
-  Future<Either<Failure, ProductsResponseDm>> getAllProducts() async{
+  Future<Either<Failure, ProductsResponseDm>> getAllProducts({int page = 1}) async{
     try{
       final List<ConnectivityResult> connectivityResult = await (Connectivity().checkConnectivity());
       if (connectivityResult.contains(ConnectivityResult.mobile) ||connectivityResult.contains(ConnectivityResult.wifi)) {
-        final response = apiService.get(
-            endPoint: ApiConstant.getAllProducts
+        final response =await apiService.get(
+            endPoint: ApiConstant.getAllProducts,
+          queryParameters: {
+              "page" :page
+          }
         );
         print(response);
         final categoriesResponse = ProductsResponseDm.fromJson(response);
@@ -48,7 +51,7 @@ class ProductsRemoteDataSourceImpl extends ProductsRemoteDataSource{
     try{
       final List<ConnectivityResult> connectivityResult = await (Connectivity().checkConnectivity());
       if (connectivityResult.contains(ConnectivityResult.mobile) ||connectivityResult.contains(ConnectivityResult.wifi)) {
-        final response = apiService.get(
+        final response =await apiService.get(
             endPoint: ApiConstant.getSpecificProducts(productId)
         );
         print(response);

@@ -38,3 +38,8 @@ class AllSubCategoriesFailure extends CategoriesStates{
   final Failure failure;
   AllSubCategoriesFailure(this.failure);
 }
+class CategoriesViewProducts extends CategoriesStates {
+  final bool isViewingProducts;
+
+  CategoriesViewProducts({required this.isViewingProducts});
+}

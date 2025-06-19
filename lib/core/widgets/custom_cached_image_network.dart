@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:eccomerce_app/core/theming/color_manager.dart';
 import 'package:flutter/material.dart';
 import '../utils/assets_manager.dart';
 import 'custom_image.dart';
@@ -30,9 +31,9 @@ class CustomCachedNetworkImage extends StatelessWidget {
       width: width ?? 102,
       imageUrl: url,
       errorWidget:
-          (context, url, error) => const ClipOval(
-        child: CustomImage(imagePath: AssetManager.lock),
-      ),
+        //   (context, url, error) => const ClipOval(
+        // child: CustomImage(imagePath: AssetManager.lock),
+          (context, url, error) => const CustomImage(imagePath: AssetManager.lock),
       progressIndicatorBuilder:
       withLoading
           ? (context, url, progress) => SizedBox(
@@ -45,10 +46,16 @@ class CustomCachedNetworkImage extends StatelessWidget {
         width: width ?? 148,
         height: height ?? 131,
         decoration: BoxDecoration(
+          color: ColorManager.primaryColor,
           borderRadius: radius ?? BorderRadius.circular(20),
           image: DecorationImage(
             image: imageProvider,
             fit: fit ?? BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+              Colors.black.withOpacity(0.7),
+              BlendMode.darken,
+
+          ),
           ),
         ),
       ),

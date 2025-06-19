@@ -11,7 +11,7 @@ class ProductsRepositoryImpl extends ProductsRepository{
   ProductsRepositoryImpl(this.productsRemoteDataSource);
 
   @override
-  Future<Either<Failure, ProductsResponseEntity>> getAllProducts() async{
+  Future<Either<Failure, ProductsResponseEntity>> getAllProducts({int page = 1}) async{
     return productsRemoteDataSource.getAllProducts();
   }
 
