@@ -2,14 +2,12 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:eccomerce_app/core/errors/failures.dart';
 import 'package:eccomerce_app/features/auth/data/data_sources/remote/auth_remote_data_source.dart';
-import 'package:eccomerce_app/features/auth/domain/entities/auth_response_entity.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:injectable/injectable.dart';
 import '../../../../../../core/api/api_constant.dart';
 import '../../../../../../core/api/api_services.dart';
 import '../../../../../../core/errors/models/api_error_model.dart';
 import '../../../models/auth_response_dto.dart';
-
 
 @Injectable(as: AuthRemoteDataSource)
 class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {

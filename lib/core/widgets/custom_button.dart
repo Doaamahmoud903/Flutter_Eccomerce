@@ -3,13 +3,14 @@ import '../theming/color_manager.dart';
 import '../theming/styles_manager.dart';
 
 class CustomButton extends StatelessWidget {
-   void Function()? onPressed;
-   String btnName;
-   final Color bgColor;
-   final Color fgColor;
-   final String? logo;
-   final Color textColor;
-   CustomButton({super.key , required this.btnName , required this.onPressed, required this.bgColor, required this.fgColor,  this.logo, required this.textColor});
+  void Function()? onPressed;
+  String btnName;
+  final Color bgColor;
+  final Color fgColor;
+  final String? logo;
+  final Color textColor;
+  final Color? borderSideColor;
+  CustomButton({super.key , required this.btnName , required this.onPressed, required this.bgColor, required this.fgColor,  this.logo, this.borderSideColor, required this.textColor});
 
   @override
   Widget build(BuildContext context) {
@@ -27,18 +28,18 @@ class CustomButton extends StatelessWidget {
 
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(15),
-              side:  BorderSide(
-                  color: bgColor
+              side: BorderSide(
+                  color: borderSideColor?? ColorManager.orangeColor
               )
           ),
         ),
         onPressed: onPressed,
         child: logo != null ?
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(logo!),
-                SizedBox(width: width*0.01,),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(logo!),
+            SizedBox(width: width*0.01,),
                 Text(btnName,
                   style: Styles.textStyle20w7.copyWith(
                     color: textColor,

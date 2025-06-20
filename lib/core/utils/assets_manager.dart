@@ -32,6 +32,7 @@ class AssetManager{
       "assets/icons/favourite_selected.png";
   static const String starIcon = "assets/icons/star.png";
   static const String shoppingCart = "assets/icons/shopping_cart.png";
+  static const String exitLogo = "assets/icons/exitLogo.png";
 
   // Announcements Images
   static const String announcement1 = "assets/images/banner-1.png";

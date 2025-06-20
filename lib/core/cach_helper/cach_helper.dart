@@ -52,7 +52,7 @@ class CacheHelper {
   }
 
   // Open Hive Box
-  Future<Box> _openBoxIfNeeded(String boxName) async {
+  Future<Box> openBoxIfNeeded(String boxName) async {
     if (!Hive.isBoxOpen(boxName)) {
       return await Hive.openBox(boxName);
     }
@@ -70,7 +70,7 @@ class CacheHelper {
       return value;
     } else {
       try {
-        var box = await _openBoxIfNeeded('complexDataBox');
+        var box = await openBoxIfNeeded('complexDataBox');
         return box.get(key);
       } catch (e) {
         print('Error retrieving data from Hive: $e');
@@ -89,7 +89,7 @@ class CacheHelper {
       return _prefs!.remove(key);
     } else {
       try {
-        var box = await _openBoxIfNeeded('complexDataBox');
+        var box = await openBoxIfNeeded('complexDataBox');
         if (box.containsKey(key)) {
           box.delete(key);
           return true;

@@ -15,4 +15,13 @@ class ApiConstant {
   static String getUserOrders(String userId) => "/orders/user/$userId";
   static String createUserOrders(String orderId) => "/orders/user/$orderId";
 
+
+
+
+
+  /////////////////// ////////////////////
+static const String authBox = "Auth";
+
 }
+
+

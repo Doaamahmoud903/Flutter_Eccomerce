@@ -7,6 +7,6 @@ class AccountView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AccountViewBody();
+    return const AccountViewBody();
   }
 }

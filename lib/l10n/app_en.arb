@@ -69,5 +69,7 @@
   "explore": "Explore",
   "welcome_back" : "Welcome Back To Route",
   "login_msg": "Please sign in with your mail",
-  "phone"  : "Phone"
+  "phone"  : "Phone",
+  "cancel" : "Cancel",
+  "logout_ques" : "Are you sure you want to logout?"
 }

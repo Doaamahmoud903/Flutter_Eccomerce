@@ -1,7 +1,8 @@
+import 'dart:convert';
 import 'package:device_preview/device_preview.dart';
+import 'package:eccomerce_app/features/account/presentation/views/widgets/update_password.dart';
 import 'package:eccomerce_app/features/brands/presentation/views/brands_view.dart';
 import 'package:eccomerce_app/features/cart/presentation/views/cart_view.dart';
-import 'package:eccomerce_app/features/product_details/presentation/views/product_details_view.dart';
 import 'package:eccomerce_app/features/products/presentation/views/products_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,12 +16,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../features/home/presentation/views/home_view.dart';
 import '../../features/layout/presentation/manager/layout_cubit.dart';
 import '../../l10n/app_localizations.dart';
+import '../cach_helper/cach_helper.dart';
 import '../localization/locale_cubit/locale_cubit.dart';
 import '../routes/app_routes.dart';
 import '../theming/app_theme.dart';
 import '../theming/theme/theme_cubit.dart';
 
 Widget buildAppRoot(BuildContext context) {
+  final token = CacheHelper().getData("token");
+  print("access TOKEN >>><<<<< $token");
+
+
   return MultiBlocProvider(
     providers: [
       BlocProvider(create: (_) => LocaleCubit()),
@@ -55,7 +61,9 @@ Widget buildAppRoot(BuildContext context) {
                 theme: appTheme(),
                 //darkTheme: darkTheme(),
                 themeMode: themeState.themeMode,
-                initialRoute: LoginView.routeName,
+                initialRoute: token != null
+                    ? AppRoutes.layoutRoute
+                    : AppRoutes.layoutRoute,
                 routes: {
                   AppRoutes.layoutRoute: (context) => const LayoutView(),
                   AppRoutes.homeRoute: (context) => const HomeView(),
@@ -67,6 +75,7 @@ Widget buildAppRoot(BuildContext context) {
                   AppRoutes.cartRoute: (context) => const CartView(),
                   AppRoutes.brandsRoute:(context) => const BrandsView(),
                   AppRoutes.productsRoute:(context)=> const ProductsView(),
+                  AppRoutes.updatePassword:(context)=> const UpdatePassword(),
                   //AppRoutes.productDetailsRoute:(context)=> const ProductDetailsView(),
                 },
               );
