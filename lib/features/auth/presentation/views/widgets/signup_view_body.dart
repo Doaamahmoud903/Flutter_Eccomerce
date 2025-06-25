@@ -32,6 +32,7 @@ class _SignupViewBodyState extends State<SignupViewBody> {
         const Center(child: CustomLoadingIndicator(),);
       }else if(state is RegisterFailureState){
         ToastUtils.showErrorToast(state.errorMsg);
+        print(state.errorMsg);
       }else if(state is RegisterSuccessState){
         ToastUtils.showSuccessToast(AppLocalizations.of(context)!.login);
         Navigator.of(context).pushNamed(AppRoutes.homeRoute);
@@ -65,7 +66,7 @@ class _SignupViewBodyState extends State<SignupViewBody> {
                       CustomTextField(
                         controller: registerViewModel.nameController,
                         prefixColor: ColorManager.textColorInTextField,
-                        prefixIcon: AssetManager.user,
+                        prefixIcon: AssetManager.unSelectedAccountIcon,
                         fillColor: ColorManager.whiteColor,
                         hintText: "enter your name",
                         hintColor: ColorManager.textColorInTextField,

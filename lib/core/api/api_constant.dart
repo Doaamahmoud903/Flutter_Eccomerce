@@ -3,7 +3,7 @@ class ApiConstant {
   static const String login = "/auth/signin";
   static const String signup = "/auth/signup";
   static const String forgotPassword = "/auth/forgotPasswords";
-  static const String resetPassword = "/auth/verifyResetCode";
+  static const String resetCode = "/auth/verifyResetCode";
   static const String getAllCategories = "/categories";
   static String getSpecificCategory(catId) => "/categories/$catId";
   static String getAllSubCategory(catId) => "/categories/$catId/subcategories";
@@ -14,6 +14,7 @@ class ApiConstant {
   static const String getAllOrders = "/orders";
   static String getUserOrders(String userId) => "/orders/user/$userId";
   static String createUserOrders(String orderId) => "/orders/user/$orderId";
+  static const String resetPassword = "/auth/resetPassword";
 
 
 

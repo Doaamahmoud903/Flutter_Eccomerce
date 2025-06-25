@@ -6,7 +6,6 @@ class AssetManager{
   static const String languageSwitch = "assets/images/Language Switch.png";
   static const String phone = "assets/images/phone.png";
   static const String google = "assets/images/google.png";
-  static const String user = "assets/images/user.png";
   // Selected Icons
   static const String selectedHomeIcon = "assets/icons/home_icon_selected.png";
   static const String editIcon = "assets/icons/edit.png";

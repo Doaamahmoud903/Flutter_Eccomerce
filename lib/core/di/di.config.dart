@@ -8,6 +8,7 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:connectivity_plus/connectivity_plus.dart' as _i895;
 import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
@@ -27,12 +28,20 @@ import '../../features/auth/domain/usecases/forgot_password/forgot_password_usec
 import '../../features/auth/domain/usecases/login/login_usecase.dart' as _i950;
 import '../../features/auth/domain/usecases/register/register_usecase.dart'
     as _i46;
+import '../../features/auth/domain/usecases/reset_code/reset_code_usecase.dart'
+    as _i870;
+import '../../features/auth/domain/usecases/reset_password/reset_password_usecase.dart'
+    as _i578;
 import '../../features/auth/presentation/manager/forgot_password/forgot_password_view_model.dart'
     as _i290;
 import '../../features/auth/presentation/manager/login/login_view_model.dart'
     as _i526;
+import '../../features/auth/presentation/manager/reset_code/reset_code_view_model.dart'
+    as _i280;
 import '../../features/auth/presentation/manager/signup/register_view_model.dart'
     as _i292;
+import '../../features/auth/presentation/reset_password/reset_password_view_model.dart'
+    as _i974;
 import '../../features/brands/data/data_sources/remote/brands_remote_data_source.dart'
     as _i146;
 import '../../features/brands/data/data_sources/remote/impl/brands_remote_data_source_impl.dart'
@@ -77,6 +86,7 @@ import '../../features/products/presentation/manager/products_view_model.dart'
     as _i725;
 import '../api/api_services.dart' as _i124;
 import '../api/dio_factory.dart' as _i1008;
+import '../connectivity/connectivity.dart' as _i273;
 
 extension GetItInjectableX on _i174.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -90,7 +100,9 @@ extension GetItInjectableX on _i174.GetIt {
       environmentFilter,
     );
     final dioFactory = _$DioFactory();
+    final appModule = _$AppModule();
     gh.lazySingleton<_i361.Dio>(() => dioFactory.dio());
+    gh.lazySingleton<_i895.Connectivity>(() => appModule.connectivity);
     gh.factory<_i485.AuthLocalDataSource>(
         () => _i754.AuthLocalDataSourceImpl());
     gh.factory<_i124.ApiService>(() => _i124.ApiService(gh<_i361.Dio>()));
@@ -100,8 +112,10 @@ extension GetItInjectableX on _i174.GetIt {
         _i187.CategoriesRepositoryImpl(gh<_i659.CategoriesRemoteDataSource>()));
     gh.factory<_i146.BrandsRemoteDataSource>(
         () => _i711.BrandsRemoteDataSourceImpl(gh<_i124.ApiService>()));
-    gh.factory<_i432.AuthRemoteDataSource>(
-        () => _i219.AuthRemoteDataSourceImpl(gh<_i124.ApiService>()));
+    gh.factory<_i432.AuthRemoteDataSource>(() => _i219.AuthRemoteDataSourceImpl(
+          gh<_i124.ApiService>(),
+          connectivity: gh<_i895.Connectivity>(),
+        ));
     gh.factory<_i725.ProductsRemoteDataSource>(
         () => _i832.ProductsRemoteDataSourceImpl(gh<_i124.ApiService>()));
     gh.factory<_i822.ProductsRepository>(() =>
@@ -125,6 +139,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i961.AuthRepository>(() => _i409.AuthRepositoryImpl(
           authRemoteDataSource: gh<_i432.AuthRemoteDataSource>(),
           authLocalDataSource: gh<_i485.AuthLocalDataSource>(),
+          connectivity: gh<_i895.Connectivity>(),
         ));
     gh.factory<_i254.CategoriesViewModel>(() => _i254.CategoriesViewModel(
           gh<_i444.CategoriesUseCase>(),
@@ -137,6 +152,10 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i950.LoginUsecase(gh<_i961.AuthRepository>()));
     gh.factory<_i46.RegisterUsecase>(
         () => _i46.RegisterUsecase(gh<_i961.AuthRepository>()));
+    gh.factory<_i578.ResetPasswordUsecase>(
+        () => _i578.ResetPasswordUsecase(gh<_i961.AuthRepository>()));
+    gh.factory<_i870.ResetCodeUsecase>(
+        () => _i870.ResetCodeUsecase(gh<_i961.AuthRepository>()));
     gh.factory<_i526.LoginViewModel>(
         () => _i526.LoginViewModel(loginUsecase: gh<_i950.LoginUsecase>()));
     gh.factory<_i725.ProductsViewModel>(() => _i725.ProductsViewModel(
@@ -152,8 +171,14 @@ extension GetItInjectableX on _i174.GetIt {
         ));
     gh.factory<_i292.RegisterViewModel>(() =>
         _i292.RegisterViewModel(registerUsecase: gh<_i46.RegisterUsecase>()));
+    gh.factory<_i280.ResetCodeViewModel>(() => _i280.ResetCodeViewModel(
+        resetCodeUsecase: gh<_i870.ResetCodeUsecase>()));
+    gh.factory<_i974.ResetPasswordViewModel>(() => _i974.ResetPasswordViewModel(
+        resetPasswordUsecase: gh<_i578.ResetPasswordUsecase>()));
     return this;
   }
 }
 
 class _$DioFactory extends _i1008.DioFactory {}
+
+class _$AppModule extends _i273.AppModule {}

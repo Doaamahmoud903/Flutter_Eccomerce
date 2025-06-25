@@ -17,4 +17,8 @@ abstract class AuthRepository {
   );
 
   Future<Either<Failure, AuthResponseEntity>> forgotPassword(String email);
+  Future<Either<Failure, AuthResponseEntity>> resetCode(String resetCode);
+  Future<Either<Failure, AuthResponseEntity>> resetPassword(String email , String newPassword);
+
+
 }

@@ -6,15 +6,15 @@ import 'package:injectable/injectable.dart';
 
 @injectable
 class ForgotPasswordViewModel extends Cubit<ForgotPasswordStates> {
-  final emailController = TextEditingController();
+  final emailController = TextEditingController(text: "doaamahmoud903@gmail.com");
   var formKey = GlobalKey<FormState>();
   ForgotPasswordUsecase forgotPasswordUsecase;
   ForgotPasswordViewModel({required this.forgotPasswordUsecase})
     : super(ForgotPasswordIntState());
-  Future<void> resetPassword(String email) async {
+  Future<void> forgotPassword() async {
     emit(ForgotPasswordLoadingState());
 
-    final response = await forgotPasswordUsecase.invoke(email);
+    final response = await forgotPasswordUsecase.invoke(emailController.text);
 
     response.fold(
       (failure) => emit(ForgotPasswordFailureState(failure.errorMessage)),

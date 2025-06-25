@@ -7,15 +7,28 @@ import 'package:eccomerce_app/features/auth/domain/entities/auth_response_entity
 import 'package:eccomerce_app/features/auth/domain/repository/auth_repository.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../../core/connectivity/handle_network_request.dart';
+
 
 @Injectable(as:AuthRepository )
 class AuthRepositoryImpl extends AuthRepository {
-  AuthRemoteDataSource authRemoteDataSource;
-  AuthLocalDataSource authLocalDataSource;
-  AuthRepositoryImpl({required this.authRemoteDataSource , required this.authLocalDataSource});
+  final AuthRemoteDataSource authRemoteDataSource;
+  final AuthLocalDataSource authLocalDataSource;
+  final Connectivity connectivity;
+
+  AuthRepositoryImpl({
+    required this.authRemoteDataSource,
+    required this.authLocalDataSource,
+    required this.connectivity,
+  });
+
   @override
   Future<Either<Failure, AuthResponseEntity>> forgotPassword(String email) async{
-   return await authRemoteDataSource.forgotPassword(email);
+   return await handleRepoNetworkRequest(
+       onlineRequest: ()async{
+         return authRemoteDataSource.forgotPassword(email);
+       }, connectivity: connectivity
+   );
   }
 
   @override
@@ -23,27 +36,29 @@ class AuthRepositoryImpl extends AuthRepository {
       String email,
       String password,
       ) async {
-    final List<ConnectivityResult> connectivityResult =
-    await Connectivity().checkConnectivity();
+    return await handleRepoNetworkRequest<AuthResponseEntity>(
+      connectivity: connectivity,
+      onlineRequest: () async {
+        final loginResponse = await authRemoteDataSource.login(email, password);
 
-    if (connectivityResult.contains(ConnectivityResult.mobile) ||
-        connectivityResult.contains(ConnectivityResult.wifi)) {
-      final loginResponse = await authRemoteDataSource.login(email, password);
+        if (loginResponse.isRight()) {
+          final authEntity = loginResponse.getOrElse(
+                  () => throw Exception("No user found"));
+          await authLocalDataSource.saveUserInfo(email, authEntity);
+        }
 
-      if (loginResponse.isRight()) {
-        final authEntity = loginResponse.getOrElse(() => throw Exception("No user found"));
-        await authLocalDataSource.saveUserInfo(email ,authEntity);
-      }
-
-      return loginResponse;
-    } else {
-      final cachedUser = await authLocalDataSource.getUserInfo(email, password);
-      if (cachedUser != null) {
-        return Right(cachedUser);
-      } else {
-        return Left(NetworkFailure("No cached user found"));
-      }
-    }
+        return loginResponse;
+      },
+      offlineRequest: () async {
+        final cachedUser =
+        await authLocalDataSource.getUserInfo(email, password);
+        if (cachedUser != null) {
+          return Right(cachedUser);
+        } else {
+          return Left(NetworkFailure("No cached user found"));
+        }
+      },
+    );
   }
 
 
@@ -55,6 +70,42 @@ class AuthRepositoryImpl extends AuthRepository {
     String rePassword,
     String phone,
   ) async{
-   return await authRemoteDataSource.register(name, email, password, rePassword, phone);
+
+   return await handleRepoNetworkRequest(
+     connectivity: connectivity,
+     onlineRequest: ()async{
+      final registerResponse = authRemoteDataSource.register(name, email, password, rePassword, phone);
+      return registerResponse;
+     },
+       );
+  }
+
+  @override
+  Future<Either<Failure, AuthResponseEntity>> resetCode(
+      String resetCode,
+      ) async{
+
+    return await handleRepoNetworkRequest(
+      connectivity: connectivity,
+      onlineRequest: ()async{
+        final registerResponse = authRemoteDataSource.resetCode(resetCode);
+        return registerResponse;
+      },
+    );
+  }
+
+  @override
+  Future<Either<Failure, AuthResponseEntity>> resetPassword(
+      String email,
+      String newPassword
+      ) async{
+
+    return await handleRepoNetworkRequest(
+      connectivity: connectivity,
+      onlineRequest: ()async{
+        final registerResponse = authRemoteDataSource.resetPassword(email, newPassword);
+        return registerResponse;
+      },
+    );
   }
 }

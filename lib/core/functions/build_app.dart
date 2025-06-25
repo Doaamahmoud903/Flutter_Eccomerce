@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:device_preview/device_preview.dart';
 import 'package:eccomerce_app/features/account/presentation/views/widgets/update_password.dart';
+import 'package:eccomerce_app/features/auth/presentation/views/reset_code_view.dart';
+import 'package:eccomerce_app/features/auth/presentation/views/reset_password_view.dart';
 import 'package:eccomerce_app/features/brands/presentation/views/brands_view.dart';
 import 'package:eccomerce_app/features/cart/presentation/views/cart_view.dart';
 import 'package:eccomerce_app/features/products/presentation/views/products_view.dart';
@@ -21,6 +23,7 @@ import '../localization/locale_cubit/locale_cubit.dart';
 import '../routes/app_routes.dart';
 import '../theming/app_theme.dart';
 import '../theming/theme/theme_cubit.dart';
+
 
 Widget buildAppRoot(BuildContext context) {
   final token = CacheHelper().getData("token");
@@ -62,7 +65,7 @@ Widget buildAppRoot(BuildContext context) {
                 //darkTheme: darkTheme(),
                 themeMode: themeState.themeMode,
                 initialRoute: token != null
-                    ? AppRoutes.layoutRoute
+                    ? AppRoutes.loginRoute
                     : AppRoutes.layoutRoute,
                 routes: {
                   AppRoutes.layoutRoute: (context) => const LayoutView(),
@@ -76,6 +79,8 @@ Widget buildAppRoot(BuildContext context) {
                   AppRoutes.brandsRoute:(context) => const BrandsView(),
                   AppRoutes.productsRoute:(context)=> const ProductsView(),
                   AppRoutes.updatePassword:(context)=> const UpdatePassword(),
+                  AppRoutes.resetCodeRoute:(context) =>const ResetCodeView(),
+                  AppRoutes.resetPasswordRoute:(context) =>const ResetPasswordView()
                   //AppRoutes.productDetailsRoute:(context)=> const ProductDetailsView(),
                 },
               );

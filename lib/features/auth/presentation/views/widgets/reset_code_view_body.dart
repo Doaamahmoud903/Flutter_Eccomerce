@@ -1,9 +1,8 @@
-import 'package:eccomerce_app/core/di/di.dart';
-import 'package:eccomerce_app/features/auth/presentation/manager/forgot_password/forgot_password_states.dart';
-import 'package:eccomerce_app/features/auth/presentation/manager/forgot_password/forgot_password_view_model.dart';
+import 'package:eccomerce_app/core/api/api_constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../../core/di/di.dart';
 import '../../../../../core/routes/app_routes.dart';
 import '../../../../../core/theming/color_manager.dart';
 import '../../../../../core/theming/styles_manager.dart';
@@ -13,25 +12,28 @@ import '../../../../../core/widgets/custom_button.dart';
 import '../../../../../core/widgets/custom_loding_indicator.dart';
 import '../../../../../core/widgets/custom_text_field.dart';
 import '../../../../../l10n/app_localizations.dart';
+import '../../manager/reset_code/reset_code_states.dart';
+import '../../manager/reset_code/reset_code_view_model.dart';
 
-class ForgotPasswordViewBody extends StatelessWidget {
-   ForgotPasswordViewBody({super.key});
-   ForgotPasswordViewModel forgotPasswordViewModel = getIt<ForgotPasswordViewModel>();
+class ResetCodeViewBody extends StatelessWidget {
+   ResetCodeViewBody({super.key});
+   ResetCodeViewModel resetPasswordViewModel = getIt<ResetCodeViewModel>();
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<ForgotPasswordViewModel , ForgotPasswordStates>(
+    return BlocListener<ResetCodeViewModel , ResetCodeStates>(
       listener: (context , state){
-        if(state is ForgotPasswordLoadingState){
+        if(state is ResetCodeLoadingState){
           const Center(child: CustomLoadingIndicator(),);
-        }else if(state is ForgotPasswordFailureState){
+        }else if(state is ResetCodeFailureState){
           ToastUtils.showErrorToast(state.errorMsg);
-        }else if(state is ForgotPasswordSuccessState){
+          print(state.errorMsg);
+        }else if(state is ResetCodeSuccessState){
           ToastUtils.showSuccessToast(state.authResponseEntity.message ?? "Reset code sent to your email");
-          Navigator.of(context).pushNamed(AppRoutes.resetCodeRoute);
+          Navigator.pushReplacementNamed(context, AppRoutes.resetPasswordRoute);
         }
       },
-      bloc: forgotPasswordViewModel,
+      bloc: resetPasswordViewModel,
       child: Scaffold(
         backgroundColor: ColorManager.primaryColor,
         body: SingleChildScrollView(
@@ -53,16 +55,16 @@ class ForgotPasswordViewBody extends StatelessWidget {
                   children: [
 
                     Padding(padding: EdgeInsets.only(top: 24.h),
-                      child: Text(AppLocalizations.of(context)!.email,
+                      child: Text(AppLocalizations.of(context)!.code,
                         style: Theme.of(context).textTheme.displayLarge,),
                     ),
                     SizedBox(height: 20.h,),
                     CustomTextField(
-                      controller: forgotPasswordViewModel.emailController,
+                      controller: resetPasswordViewModel.resetController,
                       prefixColor: ColorManager.textColorInTextField,
-                      prefixIcon: AssetManager.email,
+                      prefixIcon: AssetManager.editIcon,
                       fillColor: ColorManager.whiteColor,
-                      hintText: "enter your email",
+                      hintText: "enter your Reset Code",
                       hintColor: ColorManager.textColorInTextField,
                       borderRadius:15 ,
 
@@ -70,7 +72,7 @@ class ForgotPasswordViewBody extends StatelessWidget {
                     SizedBox(height: 40.h,),
                     CustomButton(
                       btnName: AppLocalizations.of(context)!.verify_email,
-                      onPressed: () => forgotPasswordViewModel.forgotPassword(),
+                      onPressed: () => resetPasswordViewModel.resetPassword(),
                       bgColor: ColorManager.whiteColor,
                       fgColor: ColorManager.primaryColor,
                       textColor:  ColorManager.primaryColor,
