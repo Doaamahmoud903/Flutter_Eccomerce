@@ -43,3 +43,8 @@ class CategoriesViewProducts extends CategoriesStates {
 
   CategoriesViewProducts({required this.isViewingProducts});
 }
+class CategoriesHideProducts extends CategoriesStates {
+  final bool isViewingProducts;
+
+  CategoriesHideProducts({required this.isViewingProducts});
+}

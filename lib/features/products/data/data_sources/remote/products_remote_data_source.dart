@@ -5,4 +5,6 @@ import '../../../../../core/errors/failures.dart';
 abstract class ProductsRemoteDataSource{
   Future<Either<Failure, ProductsResponseDm>>getAllProducts({int page = 1});
   Future<Either<Failure, ProductDm>>getSpecificProducts(String productId);
+  Future<Either<Failure, ProductsResponseDm>> searchProducts(String keyword);
+
 }

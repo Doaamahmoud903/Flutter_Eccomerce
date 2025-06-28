@@ -13,6 +13,24 @@ import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 
+import '../../features/account/data/data_sources/local/account_remote_data_source.dart'
+    as _i263;
+import '../../features/account/data/data_sources/local/impl/account_remote_data_source_impl.dart'
+    as _i415;
+import '../../features/account/data/data_sources/remote/account_remote_data_source.dart'
+    as _i305;
+import '../../features/account/data/data_sources/remote/impl/account_remote_data_source_impl.dart'
+    as _i24;
+import '../../features/account/data/repository/account_repository_impl.dart'
+    as _i852;
+import '../../features/account/domain/repository/account_repository.dart'
+    as _i104;
+import '../../features/account/domain/usecases/update_password_usecase.dart'
+    as _i632;
+import '../../features/account/domain/usecases/update_user_profile_usecase.dart'
+    as _i475;
+import '../../features/account/presentation/manager/account_view_model.dart'
+    as _i450;
 import '../../features/auth/data/data_sources/local/auth_local_data_source.dart'
     as _i485;
 import '../../features/auth/data/data_sources/local/impl/auth_local_data_source_impl.dart'
@@ -80,6 +98,8 @@ import '../../features/products/domain/repository/products_repository.dart'
     as _i822;
 import '../../features/products/domain/usecases/all_products_use_case.dart'
     as _i426;
+import '../../features/products/domain/usecases/search_products_usecase.dart'
+    as _i657;
 import '../../features/products/domain/usecases/specific_product_use_case.dart'
     as _i78;
 import '../../features/products/presentation/manager/products_view_model.dart'
@@ -108,18 +128,36 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i124.ApiService>(() => _i124.ApiService(gh<_i361.Dio>()));
     gh.factory<_i659.CategoriesRemoteDataSource>(
         () => _i890.CategoriesRemoteDataSourceImpl(gh<_i124.ApiService>()));
+    gh.factory<_i305.AccountRemoteDataSource>(
+        () => _i24.AccountRemoteDataSourceImpl(
+              gh<_i124.ApiService>(),
+              connectivity: gh<_i895.Connectivity>(),
+            ));
     gh.factory<_i419.CategoriesRepository>(() =>
         _i187.CategoriesRepositoryImpl(gh<_i659.CategoriesRemoteDataSource>()));
     gh.factory<_i146.BrandsRemoteDataSource>(
         () => _i711.BrandsRemoteDataSourceImpl(gh<_i124.ApiService>()));
+    gh.factory<_i263.AccountRemoteDataSource>(
+        () => _i415.AccountRemoteDataSourceImpl(
+              gh<_i124.ApiService>(),
+              connectivity: gh<_i895.Connectivity>(),
+            ));
     gh.factory<_i432.AuthRemoteDataSource>(() => _i219.AuthRemoteDataSourceImpl(
           gh<_i124.ApiService>(),
           connectivity: gh<_i895.Connectivity>(),
         ));
     gh.factory<_i725.ProductsRemoteDataSource>(
         () => _i832.ProductsRemoteDataSourceImpl(gh<_i124.ApiService>()));
+    gh.factory<_i104.AccountRepository>(() => _i852.AccountRepositoryImpl(
+          gh<_i305.AccountRemoteDataSource>(),
+          connectivity: gh<_i895.Connectivity>(),
+        ));
     gh.factory<_i822.ProductsRepository>(() =>
         _i701.ProductsRepositoryImpl(gh<_i725.ProductsRemoteDataSource>()));
+    gh.factory<_i632.UpdatePasswordUsecase>(
+        () => _i632.UpdatePasswordUsecase(gh<_i104.AccountRepository>()));
+    gh.factory<_i475.UpdateUserProfileUsecase>(
+        () => _i475.UpdateUserProfileUsecase(gh<_i104.AccountRepository>()));
     gh.factory<_i228.AllSubCategoriesUseCase>(
         () => _i228.AllSubCategoriesUseCase(gh<_i419.CategoriesRepository>()));
     gh.factory<_i444.CategoriesUseCase>(
@@ -130,6 +168,13 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i426.AllProductsUseCase(gh<_i822.ProductsRepository>()));
     gh.factory<_i78.SpecificProductUseCase>(
         () => _i78.SpecificProductUseCase(gh<_i822.ProductsRepository>()));
+    gh.factory<_i657.SearchProductsUseCase>(
+        () => _i657.SearchProductsUseCase(gh<_i822.ProductsRepository>()));
+    gh.factory<_i725.ProductsViewModel>(() => _i725.ProductsViewModel(
+          gh<_i426.AllProductsUseCase>(),
+          gh<_i78.SpecificProductUseCase>(),
+          gh<_i657.SearchProductsUseCase>(),
+        ));
     gh.factory<_i96.BrandsRepository>(
         () => _i682.BrandsRepositoryImpl(gh<_i146.BrandsRemoteDataSource>()));
     gh.factory<_i701.BrandsUseCase>(
@@ -146,6 +191,10 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i319.SpecificCategoryUseCase>(),
           gh<_i228.AllSubCategoriesUseCase>(),
         ));
+    gh.factory<_i450.AccountViewModel>(() => _i450.AccountViewModel(
+          updateUserProfileUsecase: gh<_i475.UpdateUserProfileUsecase>(),
+          updatePasswordUsecase: gh<_i632.UpdatePasswordUsecase>(),
+        ));
     gh.factory<_i1024.ForgotPasswordUsecase>(
         () => _i1024.ForgotPasswordUsecase(gh<_i961.AuthRepository>()));
     gh.factory<_i950.LoginUsecase>(
@@ -158,10 +207,6 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i870.ResetCodeUsecase(gh<_i961.AuthRepository>()));
     gh.factory<_i526.LoginViewModel>(
         () => _i526.LoginViewModel(loginUsecase: gh<_i950.LoginUsecase>()));
-    gh.factory<_i725.ProductsViewModel>(() => _i725.ProductsViewModel(
-          gh<_i426.AllProductsUseCase>(),
-          gh<_i78.SpecificProductUseCase>(),
-        ));
     gh.factory<_i290.ForgotPasswordViewModel>(() =>
         _i290.ForgotPasswordViewModel(
             forgotPasswordUsecase: gh<_i1024.ForgotPasswordUsecase>()));

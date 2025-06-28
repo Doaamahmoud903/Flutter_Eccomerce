@@ -71,5 +71,6 @@
   "login_msg": "Please sign in with your mail",
   "phone"  : "Phone",
   "cancel" : "Cancel",
-  "logout_ques" : "Are you sure you want to logout?"
+  "logout_ques" : "Are you sure you want to logout?",
+  "change_password" : "Change Password"
 }

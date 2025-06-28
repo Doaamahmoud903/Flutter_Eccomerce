@@ -5,7 +5,7 @@ import 'package:eccomerce_app/features/categories/domain/repository/categories_r
 import 'package:injectable/injectable.dart';
 import '../../../../core/errors/failures.dart';
 
-@Injectable(as: CategoriesRepository )
+@Injectable(as: CategoriesRepository)
 class CategoriesRepositoryImpl extends CategoriesRepository{
   final CategoriesRemoteDataSource categoriesRemoteDataSource;
   CategoriesRepositoryImpl(this.categoriesRemoteDataSource);

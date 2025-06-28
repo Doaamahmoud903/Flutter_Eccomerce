@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:eccomerce_app/features/account/presentation/views/widgets/account_view_body.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/di/di.dart';
+import '../manager/account_view_model.dart';
 
 class AccountView extends StatelessWidget {
-  static const String routeName = "HomeView";
   const AccountView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const AccountViewBody();
+    return BlocProvider<AccountViewModel>(
+        create: (context) => getIt<AccountViewModel>()..loadUserData(),
+        child: AccountViewBody());
   }
 }

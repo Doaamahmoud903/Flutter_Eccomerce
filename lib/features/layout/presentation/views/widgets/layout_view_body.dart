@@ -6,7 +6,6 @@ import '../../manager/layout_cubit.dart';
 import '../../manager/layout_states.dart';
 
 class LayoutViewBody extends StatefulWidget {
-  static const String routeName = "/layout";
   const LayoutViewBody({super.key});
   @override
   State<LayoutViewBody> createState() => _LayoutViewBodyState();
@@ -20,7 +19,7 @@ class _LayoutViewBodyState extends State<LayoutViewBody> {
     {
       final cubit = LayoutCubit.get(context);
       return Scaffold(
-        appBar: buildAppBar(cubit.currentIndex),
+        appBar: buildAppBar(context ,cubit.currentIndex),
         body: cubit.bottomScreens[cubit.currentIndex],
         bottomNavigationBar: const BottomNavigateBar(),
 

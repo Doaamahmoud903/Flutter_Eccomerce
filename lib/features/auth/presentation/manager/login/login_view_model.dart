@@ -20,8 +20,8 @@ import '../../../domain/usecases/login/login_usecase.dart';
 class LoginViewModel extends Cubit<LoginStates> {
   LoginUsecase loginUsecase;
   LoginViewModel({required this.loginUsecase}) :super(LoginIntState());
-  final emailController = TextEditingController(text: "dodoo@gmail.com");
-  final passwordController = TextEditingController(text: "Dodo0123@");
+  final emailController = TextEditingController(text: "dodaaa@gmail.com");
+  final passwordController = TextEditingController(text: "Dondon0123@");
   var formKey = GlobalKey<FormState>();
 
   Future<void> login() async {

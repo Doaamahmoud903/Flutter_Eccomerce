@@ -74,4 +74,37 @@ class ProductsRemoteDataSourceImpl extends ProductsRemoteDataSource{
       }
     }
   }
+
+  @override
+  Future<Either<Failure, ProductsResponseDm>> searchProducts(String keyword) async{
+    try{
+      final List<ConnectivityResult> connectivityResult = await (Connectivity().checkConnectivity());
+      if (connectivityResult.contains(ConnectivityResult.mobile) ||connectivityResult.contains(ConnectivityResult.wifi)) {
+        final response =await apiService.get(
+            endPoint: ApiConstant.getAllProducts,
+          queryParameters: {
+            'title': keyword,
+          },
+        );
+        print(response);
+        final searchResponse = ProductsResponseDm.fromJson(response);
+        return right(searchResponse);
+      } else{
+        // NO Internet Connection
+        return left(NetworkFailure("No Internet Connection"));
+      }
+    }catch (error) {
+      if (error is DioException) {
+        return Left(
+            ServerFailure.fromResponse(
+                error.response?.statusCode,
+                ApiErrorResponse.fromJson(error.response?.data)
+            )
+        );
+      } else {
+        return left(ServerFailure('Something went wrong ${error.toString()}'));
+      }
+    }
+  }
+
 }

@@ -72,17 +72,17 @@ class _CategorySidebarState extends State<CategorySidebar> {
                         Container(width: 5.w,
                           height: 40,
                           decoration:  BoxDecoration(
-                            color: category.id == categoriesViewModel.selectedCategoryId
-                                ? ColorManager.discountTextColor
-                                : Colors.transparent,
-                            borderRadius: BorderRadius.circular(5)
+                              color: category.id == categoriesViewModel.selectedCategoryId
+                                  ? ColorManager.discountTextColor
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.circular(5)
 
                           ),),
                         SizedBox(width: 5.w,),
                         Expanded(
-                         child:  AutoSizeText(
-                           CapitalizeText.capitalizeText(category.name?.trim().isNotEmpty == true ? category.name! : 'No Name'),
-                           softWrap: true,
+                          child:  AutoSizeText(
+                            CapitalizeText.capitalizeText(category.name?.trim().isNotEmpty == true ? category.name! : 'No Name'),
+                            softWrap: true,
                             wrapWords: true,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,

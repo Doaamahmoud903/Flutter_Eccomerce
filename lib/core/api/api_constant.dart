@@ -15,6 +15,8 @@ class ApiConstant {
   static String getUserOrders(String userId) => "/orders/user/$userId";
   static String createUserOrders(String orderId) => "/orders/user/$orderId";
   static const String resetPassword = "/auth/resetPassword";
+  static const String updateUserData = "/users/updateMe/";
+  static const String updatePassword = "/users/changeMyPassword";
 
 
 

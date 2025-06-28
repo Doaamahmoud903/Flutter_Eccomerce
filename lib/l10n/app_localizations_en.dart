@@ -227,4 +227,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get logout_ques => 'Are you sure you want to logout?';
+
+  @override
+  String get change_password => 'Change Password';
 }

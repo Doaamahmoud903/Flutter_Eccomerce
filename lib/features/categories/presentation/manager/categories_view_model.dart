@@ -6,6 +6,7 @@ import 'package:eccomerce_app/features/categories/presentation/manager/categorie
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
+
 @injectable
 class CategoriesViewModel extends Cubit<CategoriesStates> {
   final CategoriesUseCase categoriesUseCase;
@@ -19,8 +20,11 @@ class CategoriesViewModel extends Cubit<CategoriesStates> {
   List<Data> categoriesList = [];
   List<Data> selectedCategorySubcategories = [];
   String? selectedCategoryId;
+  bool initialized = false;
 
   Future<void> getAllCategories() async {
+    if (initialized) return;
+    initialized = true;
     emit(CategoriesLoading());
 
     final response = await categoriesUseCase.invoke();
@@ -35,7 +39,9 @@ class CategoriesViewModel extends Cubit<CategoriesStates> {
           await getAllSubCategories(selectedCategoryId!);
         }
 
-        emit(CategoriesSuccess(response));
+        if (!isViewingProducts) {
+          emit(CategoriesSuccess(response));
+        }
       },
     );
   }
@@ -79,6 +85,10 @@ class CategoriesViewModel extends Cubit<CategoriesStates> {
   bool isViewingProducts = false;
 
   void showProducts() {
+    print("🟢 instance hashCode = ${this.hashCode}");
+    print("===> showProducts called  isViewProducts >>>>>>>>>>>>>>>>>>>>>>>>>> $isViewingProducts");
+    isViewingProducts = true;
+    print("🟢 instance hashCode = ${this.hashCode}");
     emit(CategoriesViewProducts(isViewingProducts: true));
   }
 

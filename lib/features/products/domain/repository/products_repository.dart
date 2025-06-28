@@ -5,4 +5,5 @@ import 'package:eccomerce_app/features/products/domain/entities/products_respons
 abstract class ProductsRepository{
   Future<Either<Failure, ProductsResponseEntity>>getAllProducts({int page = 1});
   Future<Either<Failure, Product>>getSpecificProducts(String productId);
+  Future<Either<Failure, ProductsResponseEntity>> searchProducts(String keyword);
 }

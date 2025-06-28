@@ -15,4 +15,21 @@ class ProductsFailure extends ProductsStates{
 
   ProductsFailure(this.failure);
 }
+class ProductsSearchLoading extends ProductsStates{}
+class ProductsSearchSuccess extends ProductsStates{
+  final String keyword;
+  final ProductsResponseEntity productResponse;
 
+  ProductsSearchSuccess(this.productResponse, this.keyword);
+}
+class ProductsSearchFailure extends ProductsStates{
+  final Failure failure;
+
+  ProductsSearchFailure(this.failure);
+}
+
+class ProductsSearchKeyword extends ProductsStates{
+  final String keyword;
+
+  ProductsSearchKeyword(this.keyword);
+}

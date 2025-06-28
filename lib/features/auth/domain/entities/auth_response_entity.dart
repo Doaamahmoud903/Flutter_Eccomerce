@@ -11,12 +11,14 @@ class AuthResponseEntity extends HiveObject{
   final User? user;
   @HiveField(3)
   final String? token;
+  final Errors? errors;
 
   AuthResponseEntity({
     required this.statusMsg,
     required this.message,
     required this.user,
     required this.token,
+     this.errors
   });
 }
 
@@ -30,4 +32,14 @@ class User {
   final String role;
 
   User({required this.name, required this.email, required this.role});
+}
+
+
+class Errors {
+  final String? value;
+  final String? msg;
+  final String? param;
+  final String? location;
+
+  Errors({required this.value, required this.msg, required this.param ,required this.location});
 }

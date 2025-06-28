@@ -60,9 +60,9 @@ class HomeViewBody extends StatelessWidget {
               height: 24.h,
             ),
             _lineBreak(name: "Categories" , onPressed: cubit.goToCategoriesView),
-           // _buildCategoryBrandSec(const CategoryBrandItem()),
+            // _buildCategoryBrandSec(const CategoryBrandItem()),
             BlocBuilder<CategoriesViewModel , CategoriesStates>(
-              bloc: categoriesViewModel..getAllCategories(),
+                bloc: categoriesViewModel..getAllCategories(),
                 buildWhen: (previous, current) {
                   return current is CategoriesSuccess || current is CategoriesFailure;
                 },

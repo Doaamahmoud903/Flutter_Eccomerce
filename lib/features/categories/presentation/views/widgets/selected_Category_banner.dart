@@ -39,27 +39,27 @@ class SelectedCategoryBanner extends StatelessWidget {
         ),
         Padding(
           padding:  EdgeInsets.only(
-            left: 20.w,
-            top: 12.h
+              left: 20.w,
+              top: 12.h
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(title , style: const TextStyle(
-                fontSize: 22,
-                color: ColorManager.whiteColor
+                  fontSize: 22,
+                  color: ColorManager.whiteColor
               )),
               SizedBox(height: 8.h,),
               SizedBox(
                 width: 120.w,
                 height: 40.h,
                 child: CustomElevatedButton(
-                    text: "Shop Now",
-                    onPressed: (){
-                      BlocProvider.of<CategoriesViewModel>(context).showProducts();
-                    },
-                    backgroundColor: ColorManager.primaryDark,
-                    textStyle: Styles.semi16TextWhite,
+                  text: "Shop Now",
+                  onPressed: (){
+                    BlocProvider.of<CategoriesViewModel>(context).showProducts();
+                  },
+                  backgroundColor: ColorManager.primaryDark,
+                  textStyle: Styles.semi16TextWhite,
 
 
                 ),

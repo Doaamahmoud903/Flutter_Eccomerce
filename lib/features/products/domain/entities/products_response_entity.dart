@@ -2,7 +2,8 @@ class ProductsResponseEntity {
   ProductsResponseEntity({
       this.results, 
       this.metadata, 
-      this.data,});
+      this.data,
+  });
 
   num? results;
   Metadata? metadata;

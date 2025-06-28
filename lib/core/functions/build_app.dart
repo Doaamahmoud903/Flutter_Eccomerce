@@ -15,6 +15,7 @@ import 'package:eccomerce_app/features/auth/presentation/views/signup_view.dart'
 import 'package:eccomerce_app/features/layout/presentation/views/layout_view.dart';
 import 'package:eccomerce_app/features/onboarding/presentation/views/onboarding_view.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../features/auth/presentation/views/widgets/splash_decider.dart';
 import '../../features/home/presentation/views/home_view.dart';
 import '../../features/layout/presentation/manager/layout_cubit.dart';
 import '../../l10n/app_localizations.dart';
@@ -64,12 +65,10 @@ Widget buildAppRoot(BuildContext context) {
                 theme: appTheme(),
                 //darkTheme: darkTheme(),
                 themeMode: themeState.themeMode,
-                initialRoute: token != null
-                    ? AppRoutes.loginRoute
-                    : AppRoutes.layoutRoute,
+                home: const SplashDecider(),
                 routes: {
                   AppRoutes.layoutRoute: (context) => const LayoutView(),
-                  AppRoutes.homeRoute: (context) => const HomeView(),
+                  AppRoutes.homeRoute: (context) =>  HomeView(),
                   AppRoutes.onboardingRoute: (context) => const OnboardingView(),
                   AppRoutes.forgotPasswordRoute:
                       (context) => const ForgotPasswordView(),
@@ -78,7 +77,7 @@ Widget buildAppRoot(BuildContext context) {
                   AppRoutes.cartRoute: (context) => const CartView(),
                   AppRoutes.brandsRoute:(context) => const BrandsView(),
                   AppRoutes.productsRoute:(context)=> const ProductsView(),
-                  AppRoutes.updatePassword:(context)=> const UpdatePassword(),
+                  AppRoutes.updatePassword:(context)=>  UpdatePassword(),
                   AppRoutes.resetCodeRoute:(context) =>const ResetCodeView(),
                   AppRoutes.resetPasswordRoute:(context) =>const ResetPasswordView()
                   //AppRoutes.productDetailsRoute:(context)=> const ProductDetailsView(),

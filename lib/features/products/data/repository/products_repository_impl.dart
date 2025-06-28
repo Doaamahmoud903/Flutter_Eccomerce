@@ -19,4 +19,9 @@ class ProductsRepositoryImpl extends ProductsRepository{
   Future<Either<Failure, Product>> getSpecificProducts(String productId) async{
    return productsRemoteDataSource.getSpecificProducts(productId);
   }
+
+  @override
+  Future<Either<Failure, ProductsResponseEntity>> searchProducts(String keyword) async{
+    return productsRemoteDataSource.searchProducts(keyword);
+  }
 }

@@ -227,4 +227,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get logout_ques => 'هل أنت متأكد أنك تريد تسجيل الخروج؟';
+
+  @override
+  String get change_password => 'تغيير كلمه المرور';
 }
