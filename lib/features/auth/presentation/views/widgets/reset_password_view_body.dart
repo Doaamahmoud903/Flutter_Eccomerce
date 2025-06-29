@@ -1,11 +1,8 @@
 import 'package:eccomerce_app/core/di/di.dart';
 import 'package:eccomerce_app/features/auth/presentation/manager/login/login_view_model.dart';
-import 'package:eccomerce_app/features/auth/presentation/reset_password/reset_password_states.dart';
-import 'package:eccomerce_app/features/auth/presentation/reset_password/reset_password_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import '../../../../../core/routes/app_routes.dart';
 import '../../../../../core/theming/color_manager.dart';
 import '../../../../../core/theming/styles_manager.dart';
@@ -16,6 +13,8 @@ import '../../../../../core/widgets/custom_loding_indicator.dart';
 import '../../../../../core/widgets/custom_text_field.dart';
 import '../../../../../l10n/app_localizations.dart';
 import '../../manager/login/login_states.dart';
+import '../../manager/reset_password/reset_password_states.dart';
+import '../../manager/reset_password/reset_password_view_model.dart';
 
 class ResetPasswordViewBody extends StatelessWidget {
    ResetPasswordViewBody({super.key});

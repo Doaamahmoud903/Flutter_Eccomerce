@@ -3,9 +3,15 @@ import 'package:eccomerce_app/core/theming/styles_manager.dart';
 import 'package:eccomerce_app/core/theming/color_manager.dart';
 import 'package:eccomerce_app/features/products/presentation/views/widgets/product_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:readmore/readmore.dart';
 
+import '../../../../../core/di/di.dart';
+import '../../../../../core/utils/toast_utils.dart';
+import '../../../../../core/widgets/custom_loding_indicator.dart';
+import '../../../../cart/presentation/manager/cart_states.dart';
+import '../../../../cart/presentation/manager/cart_view_model.dart';
 import '../../../../products/domain/entities/products_response_entity.dart';
 
 
@@ -286,51 +292,66 @@ class _ProductDetailsViewBodyState extends State<ProductDetailsViewBody> {
   }
 
   Widget _buildPriceSection() {
-    return Container(
-      margin: EdgeInsets.only(top: 48.h),
-      child: Row(
-        children: [
-          Column(
-            children: [
-              Text(
-                'Total price',
-                style: Styles.medium18Header
-                    .copyWith(color: ColorManager.primaryDark.withOpacity(0.6)),
-              ),
-              SizedBox(
-                height: 12.h,
-              ),
-              Text("EGP ${widget.product.price}", style: Styles.medium18Header)
-            ],
-          ),
-          SizedBox(
-            width: 33.w,
-          ),
-          Expanded(
-            child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(17.r)),
-                  backgroundColor: ColorManager.primaryColor,
-                  padding:
-                  EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
+    return BlocListener<CartViewModel , CartStates>(
+      bloc: CartViewModel.get(context),
+      listener: (context , state){
+        if(state is CartLoadingState){
+          const Center(child: CustomLoadingIndicator(),);
+        }else if(state is CartFailureState){
+          print(state.failure.errMessage);
+          ToastUtils.showErrorToast(state.failure.errMessage);
+        }else if(state is CartSuccesState){
+          ToastUtils.showSuccessToast(state.cartResponseEntity.message ?? "Success");
+        }
+      },
+      child: Container(
+        margin: EdgeInsets.only(top: 48.h),
+        child: Row(
+          children: [
+            Column(
+              children: [
+                Text(
+                  'Total price',
+                  style: Styles.medium18Header
+                      .copyWith(color: ColorManager.primaryDark.withOpacity(0.6)),
                 ),
-                onPressed: () {},
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.add_shopping_cart,
-                      color: ColorManager.whiteColor,
-                    ),
-                    SizedBox(
-                      width: 15.w,
-                    ),
-                    AutoSizeText("Add To Cart", style: Styles.medium20White),
-                  ],
-                )),
-          )
-        ],
+                SizedBox(
+                  height: 12.h,
+                ),
+                Text("EGP ${widget.product.price}", style: Styles.medium18Header)
+              ],
+            ),
+            SizedBox(
+              width: 33.w,
+            ),
+            Expanded(
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(17.r)),
+                    backgroundColor: ColorManager.primaryColor,
+                    padding:
+                    EdgeInsets.symmetric(horizontal: 14.w, vertical: 14.h),
+                  ),
+                  onPressed: (){
+                    CartViewModel.get(context).addToCart(widget.product.id!);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.add_shopping_cart,
+                        color: ColorManager.whiteColor,
+                      ),
+                      SizedBox(
+                        width: 15.w,
+                      ),
+                      AutoSizeText("Add To Cart", style: Styles.medium20White),
+                    ],
+                  )),
+            )
+          ],
+        ),
       ),
     );
   }

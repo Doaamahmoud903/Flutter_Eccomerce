@@ -1,13 +1,25 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:eccomerce_app/core/di/di.dart';
 import 'package:eccomerce_app/core/theming/color_manager.dart';
+import 'package:eccomerce_app/features/cart/domain/entities/cart_response_entity.dart';
+import 'package:eccomerce_app/features/cart/presentation/manager/cart_view_model.dart';
+import 'package:eccomerce_app/features/cart/presentation/views/cart_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/routes/app_routes.dart';
+import '../../../../../core/utils/toast_utils.dart';
+import '../../../../../core/widgets/custom_loding_indicator.dart';
+import '../../../data/models/get_cart_response_dm.dart';
+import '../../../domain/entities/get_cart_response_entity.dart';
+import '../../manager/cart_states.dart';
 
 class CartItem extends StatefulWidget {
-  const CartItem({super.key});
+  final GetCartProductsEntity item;
+  final GetCartResponseEntity cart;
+   CartItem({super.key, required this.item, required this.cart});
 
   @override
   State<CartItem> createState() => _CartItemState();
@@ -68,8 +80,7 @@ class _CartItemState extends State<CartItem> {
           width: 130.w,
           height: 145.h,
           fit: BoxFit.cover,
-          imageUrl:
-          "https://www.nike.sa/dw/image/v2/BDVB_PRD/on/demandware.static/-/Sites-akeneo-master-catalog/default/dw42ccc9ea/nk/a9b/7/6/4/b/1/a9b764b1_834c_413e_aec2_f460112b2de6.jpg?sw=2000&sh=2000&sm=fit",
+          imageUrl: widget.item.imageCover ?? "",
           placeholder: (context, url) => const Center(
             child: CircularProgressIndicator(
               color: ColorManager.yellowColor,
@@ -89,7 +100,7 @@ class _CartItemState extends State<CartItem> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         AutoSizeText(
-          "NIKE AIR JORDAN",
+          widget.item.title?.split(" ").take(3).join(" ") ?? "",
           maxLines: 1,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
             color: ColorManager.primaryColor,
@@ -99,7 +110,7 @@ class _CartItemState extends State<CartItem> {
         ),
         InkWell(
           onTap: () {
-            // TODO: delete item from cart
+            CartViewModel.get(context).removeItemFromCart(widget.item.id!);
           },
           child: Icon(
             CupertinoIcons.delete,
@@ -137,7 +148,7 @@ class _CartItemState extends State<CartItem> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         AutoSizeText(
-          "Egp 3,500",
+          "Egp ${widget.item.price}",
           maxLines: 1,
           style: Theme.of(context).textTheme.titleMedium?.copyWith(
             color: ColorManager.primaryColor,
@@ -162,10 +173,11 @@ class _CartItemState extends State<CartItem> {
         children: [
           IconButton(
             onPressed: () {
-              if (itemCount > 1) {
-                setState(() {
-                  itemCount--;
-                });
+              if (widget.item.count!.toInt() > 1) {
+                CartViewModel.get(context).updateCartQuantity(
+                  widget.item.id!,
+                  widget.item.count!.toInt() - 1,
+                );
               }
             },
             icon: Icon(
@@ -175,7 +187,7 @@ class _CartItemState extends State<CartItem> {
             ),
           ),
           AutoSizeText(
-            "$itemCount",
+            "${widget.item.count}",
             maxLines: 1,
             style: Theme.of(context).textTheme.titleMedium?.copyWith(
               color: ColorManager.whiteColor,
@@ -185,9 +197,10 @@ class _CartItemState extends State<CartItem> {
           ),
           IconButton(
             onPressed: () {
-              setState(() {
-                itemCount++;
-              });
+              CartViewModel.get(context).updateCartQuantity(
+                widget.item.id!,
+                widget.item.count!.toInt() + 1,
+              );
             },
             icon: Icon(
               Icons.add_circle_outline_rounded,
@@ -199,4 +212,5 @@ class _CartItemState extends State<CartItem> {
       ),
     );
   }
+
 }

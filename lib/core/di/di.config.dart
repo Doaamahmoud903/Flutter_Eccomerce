@@ -56,10 +56,10 @@ import '../../features/auth/presentation/manager/login/login_view_model.dart'
     as _i526;
 import '../../features/auth/presentation/manager/reset_code/reset_code_view_model.dart'
     as _i280;
+import '../../features/auth/presentation/manager/reset_password/reset_password_view_model.dart'
+    as _i903;
 import '../../features/auth/presentation/manager/signup/register_view_model.dart'
     as _i292;
-import '../../features/auth/presentation/reset_password/reset_password_view_model.dart'
-    as _i974;
 import '../../features/brands/data/data_sources/remote/brands_remote_data_source.dart'
     as _i146;
 import '../../features/brands/data/data_sources/remote/impl/brands_remote_data_source_impl.dart'
@@ -72,6 +72,25 @@ import '../../features/brands/domain/usecases/specific_brand_use_case.dart'
     as _i1021;
 import '../../features/brands/presentation/manager/brands_view_model.dart'
     as _i227;
+import '../../features/cart/data/data_sources/local/cart_local_data_source.dart'
+    as _i1048;
+import '../../features/cart/data/data_sources/local/impl/cart_local_data_source_impl.dart'
+    as _i116;
+import '../../features/cart/data/data_sources/remote/cart_remote_data_source.dart'
+    as _i742;
+import '../../features/cart/data/data_sources/remote/impl/cart_remote_data_source_impl.dart'
+    as _i1042;
+import '../../features/cart/data/repository/cart_repository_impl.dart'
+    as _i1063;
+import '../../features/cart/domain/repository/cart_repository.dart' as _i26;
+import '../../features/cart/domain/usecases/add_to_cart_usecase.dart' as _i659;
+import '../../features/cart/domain/usecases/clear_cart_usecase.dart' as _i240;
+import '../../features/cart/domain/usecases/get_cart_usecase.dart' as _i179;
+import '../../features/cart/domain/usecases/remove_from_cart_usecase.dart'
+    as _i355;
+import '../../features/cart/domain/usecases/update_cart_quantity_usecase.dart'
+    as _i302;
+import '../../features/cart/presentation/manager/cart_view_model.dart' as _i582;
 import '../../features/categories/data/data_sources/remote/categories_remote_data_source.dart'
     as _i659;
 import '../../features/categories/data/data_sources/remote/impl/categories_remote_data_source_impl.dart'
@@ -133,10 +152,22 @@ extension GetItInjectableX on _i174.GetIt {
               gh<_i124.ApiService>(),
               connectivity: gh<_i895.Connectivity>(),
             ));
+    gh.factory<_i1048.CartLocalDataSource>(
+        () => _i116.CartLocalDataSourceImpl());
     gh.factory<_i419.CategoriesRepository>(() =>
         _i187.CategoriesRepositoryImpl(gh<_i659.CategoriesRemoteDataSource>()));
+    gh.factory<_i742.CartRemoteDataSource>(
+        () => _i1042.CartRemoteDataSourceImpl(
+              gh<_i124.ApiService>(),
+              gh<_i895.Connectivity>(),
+            ));
     gh.factory<_i146.BrandsRemoteDataSource>(
         () => _i711.BrandsRemoteDataSourceImpl(gh<_i124.ApiService>()));
+    gh.factory<_i26.CartRepository>(() => _i1063.CartRepositoryImpl(
+          connectivity: gh<_i895.Connectivity>(),
+          cartLocalDataSource: gh<_i1048.CartLocalDataSource>(),
+          cartRemoteDataSource: gh<_i742.CartRemoteDataSource>(),
+        ));
     gh.factory<_i263.AccountRemoteDataSource>(
         () => _i415.AccountRemoteDataSourceImpl(
               gh<_i124.ApiService>(),
@@ -181,6 +212,16 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i701.BrandsUseCase(gh<_i96.BrandsRepository>()));
     gh.factory<_i1021.SpecificBrandUseCase>(
         () => _i1021.SpecificBrandUseCase(gh<_i96.BrandsRepository>()));
+    gh.factory<_i659.AddToCartUsecase>(
+        () => _i659.AddToCartUsecase(gh<_i26.CartRepository>()));
+    gh.factory<_i240.ClearCartUsecase>(
+        () => _i240.ClearCartUsecase(gh<_i26.CartRepository>()));
+    gh.factory<_i179.GetCartUsecase>(
+        () => _i179.GetCartUsecase(gh<_i26.CartRepository>()));
+    gh.factory<_i355.RemoveFromCartUsecase>(
+        () => _i355.RemoveFromCartUsecase(gh<_i26.CartRepository>()));
+    gh.factory<_i302.UpdateCartQuantityUsecase>(
+        () => _i302.UpdateCartQuantityUsecase(gh<_i26.CartRepository>()));
     gh.factory<_i961.AuthRepository>(() => _i409.AuthRepositoryImpl(
           authRemoteDataSource: gh<_i432.AuthRemoteDataSource>(),
           authLocalDataSource: gh<_i485.AuthLocalDataSource>(),
@@ -207,6 +248,13 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i870.ResetCodeUsecase(gh<_i961.AuthRepository>()));
     gh.factory<_i526.LoginViewModel>(
         () => _i526.LoginViewModel(loginUsecase: gh<_i950.LoginUsecase>()));
+    gh.factory<_i582.CartViewModel>(() => _i582.CartViewModel(
+          gh<_i659.AddToCartUsecase>(),
+          gh<_i355.RemoveFromCartUsecase>(),
+          gh<_i179.GetCartUsecase>(),
+          gh<_i240.ClearCartUsecase>(),
+          gh<_i302.UpdateCartQuantityUsecase>(),
+        ));
     gh.factory<_i290.ForgotPasswordViewModel>(() =>
         _i290.ForgotPasswordViewModel(
             forgotPasswordUsecase: gh<_i1024.ForgotPasswordUsecase>()));
@@ -218,7 +266,7 @@ extension GetItInjectableX on _i174.GetIt {
         _i292.RegisterViewModel(registerUsecase: gh<_i46.RegisterUsecase>()));
     gh.factory<_i280.ResetCodeViewModel>(() => _i280.ResetCodeViewModel(
         resetCodeUsecase: gh<_i870.ResetCodeUsecase>()));
-    gh.factory<_i974.ResetPasswordViewModel>(() => _i974.ResetPasswordViewModel(
+    gh.factory<_i903.ResetPasswordViewModel>(() => _i903.ResetPasswordViewModel(
         resetPasswordUsecase: gh<_i578.ResetPasswordUsecase>()));
     return this;
   }

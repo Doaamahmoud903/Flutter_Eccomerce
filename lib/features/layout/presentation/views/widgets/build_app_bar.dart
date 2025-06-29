@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/theming/color_manager.dart';
 import '../../../../../core/widgets/build_custom_border.dart';
 import '../../../../../core/widgets/custom_badge.dart';
+import '../../../../cart/presentation/manager/cart_view_model.dart';
 import '../../../../products/presentation/views/widgets/products_search_results.dart';
 
 
@@ -81,7 +82,7 @@ PreferredSizeWidget buildAppBar(BuildContext context, int index) {
                             ),
                           ),
                         ),
-                        const CustomAppBarBadge(count: 5),
+                         CustomAppBarBadge(count:  CartViewModel.get(context).cartData?.numOfCartItems?.toInt() ?? 0),
                       ],
                     ),
                   ),

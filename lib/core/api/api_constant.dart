@@ -17,13 +17,15 @@ class ApiConstant {
   static const String resetPassword = "/auth/resetPassword";
   static const String updateUserData = "/users/updateMe/";
   static const String updatePassword = "/users/changeMyPassword";
-
+  static const String cart = "/cart";
+  static String removeItemFromCart(String productId) => "/cart/$productId";
 
 
 
 
   /////////////////// ////////////////////
-static const String authBox = "Auth";
+  static const String authBox = "Auth";
+  static const String cartBox = "Cart";
 
 }
 
