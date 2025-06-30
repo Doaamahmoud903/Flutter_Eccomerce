@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:eccomerce_app/core/di/di.dart';
+import 'package:eccomerce_app/core/routes/app_routes.dart';
 import 'package:eccomerce_app/core/theming/color_manager.dart';
 import 'package:eccomerce_app/core/widgets/custom_loding_indicator.dart';
 import 'package:eccomerce_app/features/cart/presentation/manager/cart_states.dart';
@@ -35,6 +36,7 @@ class CartViewBody extends StatelessWidget {
           } else if (state is GetCartSuccesState) {
             final cart = state.cart;
             final products = cart.data?.products ?? [];
+            final cartId = cart.cartId;
 
             if (products.isEmpty) {
               return const Center(
@@ -55,7 +57,7 @@ class CartViewBody extends StatelessWidget {
                     },
                   ),
                 ),
-                _buildCheckOut(context, cart.data!.totalCartPrice!.toDouble()),
+                _buildCheckOut(context, cart.data!.totalCartPrice!.toDouble() ,cartId!),
               ],
             );
           } else {
@@ -72,7 +74,7 @@ class CartViewBody extends StatelessWidget {
 
   }
 
-  Widget _buildCheckOut(BuildContext context, double price) {
+  Widget _buildCheckOut(BuildContext context, double price ,String cartId) {
     return Padding(
       padding: EdgeInsets.only(bottom: 50.h, left: 16.w, right: 16.w),
       child: Row(
@@ -106,7 +108,7 @@ class CartViewBody extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                       backgroundColor: ColorManager.primaryColor),
                   onPressed: () {
-                    //todo: navigate to payment section
+                   Navigator.pushNamed(context, AppRoutes.checkout,arguments: cartId);
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,

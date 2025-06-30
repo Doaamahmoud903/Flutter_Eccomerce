@@ -8,7 +8,7 @@ class ApiConstant {
   static String getSpecificCategory(catId) => "/categories/$catId";
   static String getAllSubCategory(catId) => "/categories/$catId/subcategories";
   static const String getAllBrands = "/brands";
-  static String getSpecificBrand (String brandId) => "/brands/$brandId";
+  static String getSpecificBrand(String brandId) => "/brands/$brandId";
   static const String getAllProducts = "/products";
   static String getSpecificProducts(String productId) => "/products/$productId";
   static const String getAllOrders = "/orders";
@@ -19,14 +19,14 @@ class ApiConstant {
   static const String updatePassword = "/users/changeMyPassword";
   static const String cart = "/cart";
   static String removeItemFromCart(String productId) => "/cart/$productId";
-
-
-
+  static const String wishlist = "/wishlist";
+  static String removeItemFromWishlist(String productId) =>
+      "/wishlist/$productId";
+  static String createOrder(String cartId) =>
+      "/orders/$cartId";
+  static const String orders = "/orders";
 
   /////////////////// ////////////////////
   static const String authBox = "Auth";
   static const String cartBox = "Cart";
-
 }
-
-

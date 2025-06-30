@@ -5,6 +5,7 @@ import 'package:eccomerce_app/features/auth/presentation/views/reset_code_view.d
 import 'package:eccomerce_app/features/auth/presentation/views/reset_password_view.dart';
 import 'package:eccomerce_app/features/brands/presentation/views/brands_view.dart';
 import 'package:eccomerce_app/features/cart/presentation/views/cart_view.dart';
+import 'package:eccomerce_app/features/orders/presentation/views/order_view.dart';
 import 'package:eccomerce_app/features/products/presentation/views/products_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -79,7 +80,8 @@ Widget buildAppRoot(BuildContext context) {
                   AppRoutes.productsRoute:(context)=> const ProductsView(),
                   AppRoutes.updatePassword:(context)=>  UpdatePassword(),
                   AppRoutes.resetCodeRoute:(context) =>const ResetCodeView(),
-                  AppRoutes.resetPasswordRoute:(context) =>const ResetPasswordView()
+                  AppRoutes.resetPasswordRoute:(context) =>const ResetPasswordView(),
+                  AppRoutes.checkout:(context) =>const OrderView(),
                   //AppRoutes.productDetailsRoute:(context)=> const ProductDetailsView(),
                 },
               );

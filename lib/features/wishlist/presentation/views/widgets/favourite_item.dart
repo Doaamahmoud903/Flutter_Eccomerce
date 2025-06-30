@@ -3,14 +3,18 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:eccomerce_app/core/theming/color_manager.dart';
 import 'package:eccomerce_app/core/theming/styles_manager.dart';
 import 'package:eccomerce_app/core/utils/assets_manager.dart';
+import 'package:eccomerce_app/features/cart/presentation/manager/cart_view_model.dart';
+import 'package:eccomerce_app/features/wishlist/domain/entities/wishlist_response_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:colornames/colornames.dart';
 import '../../../../../core/routes/app_routes.dart';
+import '../../manager/wishlist_view_model.dart';
 import 'custom_elevated_button.dart';
 
 class FavoriteItem extends StatefulWidget {
-  final Map<String, dynamic> product;
+  final WishlistDataEntity product;
+  //final Map<String, dynamic> product;
   String heartIcon = AssetManager.selectedFavouriteIcon;
   bool isClicked = false;
 
@@ -23,6 +27,8 @@ class FavoriteItem extends StatefulWidget {
 class _FavoriteItemState extends State<FavoriteItem> {
   @override
   Widget build(BuildContext context) {
+    WishlistViewModel wishlistViewModel = WishlistViewModel.get(context);
+    CartViewModel cartViewModel = CartViewModel.get(context);
     return Padding(
       padding: EdgeInsets.only(top: 10.h),
       child: InkWell(
@@ -52,16 +58,18 @@ class _FavoriteItemState extends State<FavoriteItem> {
                     width: 120.w,
                     height: 135.h,
                     fit: BoxFit.cover,
-                    imageUrl: widget.product["imageUrl"],
-                    placeholder: (context, url) => const Center(
-                      child: CircularProgressIndicator(
-                        color: ColorManager.primaryColor,
-                      ),
-                    ),
-                    errorWidget: (context, url, error) => const Icon(
-                      Icons.error,
-                      color: ColorManager.primaryColor,
-                    ),
+                    imageUrl: widget.product.imageCover ?? "",
+                    placeholder:
+                        (context, url) => const Center(
+                          child: CircularProgressIndicator(
+                            color: ColorManager.primaryColor,
+                          ),
+                        ),
+                    errorWidget:
+                        (context, url, error) => const Icon(
+                          Icons.error,
+                          color: ColorManager.primaryColor,
+                        ),
                   ),
                 ),
               ),
@@ -76,7 +84,7 @@ class _FavoriteItemState extends State<FavoriteItem> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           AutoSizeText(
-                            widget.product["title"],
+                            widget.product.title ?? "",
                             style: Styles.medium18Header,
                           ),
                           InkWell(
@@ -85,12 +93,15 @@ class _FavoriteItemState extends State<FavoriteItem> {
                               borderRadius: BorderRadius.circular(16),
                             ),
                             onTap: () {
-                              setState(() {
-                                widget.isClicked = !widget.isClicked;
-                                widget.heartIcon = !widget.isClicked
-                                    ? AssetManager.selectedFavouriteIcon
-                                    : AssetManager.selectedAddToFavouriteIcon;
-                              });
+                              // setState(() {
+                              //   widget.isClicked = !widget.isClicked;
+                              //   widget.heartIcon =
+                              //       !widget.isClicked
+                              //           ? AssetManager.selectedFavouriteIcon
+                              //           : AssetManager
+                              //               .selectedAddToFavouriteIcon;
+                              // });
+                              wishlistViewModel.removeItemFromWishlist(widget.product.id!);
                             },
                             child: Material(
                               // borderRadius: BorderRadius.circular(2),
@@ -99,11 +110,12 @@ class _FavoriteItemState extends State<FavoriteItem> {
                               shape: const StadiumBorder(),
                               shadowColor: ColorManager.blackColor,
                               child: Padding(
-                                  padding: const EdgeInsets.all(6),
-                                  child: ImageIcon(
-                                    AssetImage(widget.heartIcon),
-                                    color: ColorManager.primaryColor,
-                                  )),
+                                padding: const EdgeInsets.all(6),
+                                child: ImageIcon(
+                                  AssetImage(widget.heartIcon),
+                                  color: ColorManager.primaryColor,
+                                ),
+                              ),
                             ),
                           ),
                         ],
@@ -115,41 +127,45 @@ class _FavoriteItemState extends State<FavoriteItem> {
                             width: 14.w,
                             height: 14.h,
                             decoration: BoxDecoration(
-                              color: widget.product["color"],
+                              color: Color.fromARGB(255, 255, 148, 175),
                               shape: BoxShape.circle,
                             ),
                           ),
                           AutoSizeText(
-                            (widget.product["color"] as Color).colorName,
+                            (Color.fromARGB(255, 255, 148, 175) as Color)
+                                .colorName,
                             style: Styles.regular14Text,
-                          )
+                          ),
                         ],
                       ),
                       Row(
                         children: [
                           AutoSizeText(
-                            "EGP ${widget.product["finalPrice"]}",
+                            "EGP ${widget.product.price}",
                             style: Styles.medium18Header,
                           ),
-                          SizedBox(
-                            width: 8.w,
-                          ),
+                          SizedBox(width: 8.w),
                           AutoSizeText(
-                            "EGP${widget.product["salePrice"]}",
+                            "EGP${widget.product.price!.toDouble() * .1}",
                             style: Styles.regular11SalePrice.copyWith(
-                                decoration: TextDecoration.lineThrough),
+                              decoration: TextDecoration.lineThrough,
+                            ),
                           ),
                           const Spacer(),
                           SizedBox(
                             width: 100.w,
                             height: 36.h,
                             child: CustomElevatedButton(
-                                text: "Add To Cart",
-                                onPressed: () {},
-                                backgroundColor: ColorManager.primaryColor,
-                                textStyle: Styles.medium14Category
-                                    .copyWith(color: ColorManager.whiteColor)),
-                          )
+                              text: "Add To Cart",
+                              onPressed: () {
+                                cartViewModel.addToCart(widget.product.id!);
+                              },
+                              backgroundColor: ColorManager.primaryColor,
+                              textStyle: Styles.medium14Category.copyWith(
+                                color: ColorManager.whiteColor,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ],

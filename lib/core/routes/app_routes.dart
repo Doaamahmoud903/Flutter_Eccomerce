@@ -12,5 +12,6 @@ class AppRoutes{
   static const String brandsRoute = "brands";
   static const String productDetailsRoute = "productDetails";
   static const String updatePassword = "brands";
+  static const String checkout = "checkout";
 
 }

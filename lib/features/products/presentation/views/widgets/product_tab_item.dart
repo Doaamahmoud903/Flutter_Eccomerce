@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../wishlist/presentation/manager/wishlist_view_model.dart';
 import '../../../domain/entities/products_response_entity.dart';
 
 class ProductTabItem extends StatelessWidget {
@@ -20,6 +21,7 @@ class ProductTabItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final wishlistViewModel = WishlistViewModel.get(context);
     return BlocListener<CartViewModel , CartStates>(
       bloc: CartViewModel.get(context),
       listener: (context , state){
@@ -67,7 +69,7 @@ class ProductTabItem extends StatelessWidget {
                       child: Center(
                         child: IconButton(
                             onPressed: () {
-                              // todo add to favorite
+                              wishlistViewModel.addItemToWishlist(product.id!);
                             },
                             color: ColorManager.primaryColor,
                             padding: EdgeInsets.zero,

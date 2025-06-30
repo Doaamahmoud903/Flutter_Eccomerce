@@ -30,7 +30,10 @@ class CartViewModel extends Cubit<CartStates>{
     print(response);
     response.fold(
         (failure) => emit(CartFailureState(failure)),
-        (cartResponse) => emit(CartSuccesState(cartResponse))
+        (cartResponse) => {
+          getCart(),
+          ToastUtils.showSuccessToast("Product Added To Cart Successfully"),
+          emit(CartSuccesState(cartResponse))}
     );
     
 
